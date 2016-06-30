@@ -368,6 +368,12 @@
 	}
 
 	function _premake_main()
+		local prof = newProfiler("time")
+		prof:start()
 		p.callArray(m.elements)
+		prof:stop()
+		local out = io.open("profile.txt", "w+")
+		prof:report(out)
+		out:close()
 		return 0
 	end

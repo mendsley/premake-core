@@ -11,6 +11,7 @@
 	{
 		-- core files
 		"base/_foundation.lua",
+		"base/profiler.lua",
 		"base/string.lua",
 		"base/table.lua",
 		"base/path.lua",

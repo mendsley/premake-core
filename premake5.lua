@@ -94,7 +94,7 @@
 		configurations { "Release", "Debug" }
 		location ( _OPTIONS["to"] )
 
-		flags { "No64BitChecks", "ExtraWarnings", "StaticRuntime", "MultiProcessorCompile" }
+		flags { "No64BitChecks", "ExtraWarnings", "StaticRuntime", "MultiProcessorCompile", "Symbols" }
 
 		if not _OPTIONS["no-zlib"] then
 			defines { "PREMAKE_COMPRESSION" }

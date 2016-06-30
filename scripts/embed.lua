@@ -17,27 +17,28 @@
 
 
 	local function stripScript(s)
+		return s
 		-- strip tabs
-		local result = s:gsub("[\t]", "")
+		--local result = s:gsub("[\t]", "")
 
-		-- strip any CRs
-		result = result:gsub("[\r]", "")
+		---- strip any CRs
+		--result = result:gsub("[\r]", "")
 
-		-- strip out block comments
-		result = result:gsub("[^\"']%-%-%[%[.-%]%]", "")
-		result = result:gsub("[^\"']%-%-%[=%[.-%]=%]", "")
-		sresult = result:gsub("[^\"']%-%-%[==%[.-%]==%]", "")
+		---- strip out block comments
+		--result = result:gsub("[^\"']%-%-%[%[.-%]%]", "")
+		--result = result:gsub("[^\"']%-%-%[=%[.-%]=%]", "")
+		--sresult = result:gsub("[^\"']%-%-%[==%[.-%]==%]", "")
 
-		-- strip out inline comments
-		result = result:gsub("\n%-%-[^\n]*", "\n")
+		---- strip out inline comments
+		--result = result:gsub("\n%-%-[^\n]*", "\n")
 
-		-- strip duplicate line feeds
-		result = result:gsub("\n+", "\n")
+		---- strip duplicate line feeds
+		--result = result:gsub("\n+", "\n")
 
-		-- strip out leading comments
-		result = result:gsub("^%-%-[^\n]*\n", "")
+		---- strip out leading comments
+		--result = result:gsub("^%-%-[^\n]*\n", "")
 
-		return result
+		--return result
 	end
 
 
