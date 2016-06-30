@@ -37,7 +37,7 @@
 --    A new context object.
 --
 
-	function context.new(cfgset, environ)
+	function context.new_basedir(cfgset, environ, basedir)
 		local ctx = {}
 		ctx._cfgset = cfgset
 		ctx.environ = environ or {}
@@ -48,14 +48,17 @@
 		-- so the resulting projects will only contain relative paths. It is
 		-- expected that the creator of the context will set this value using
 		-- the setbasedir() function.
-
-		ctx._basedir = os.getcwd()
+		ctx._basedir = basedir
 
 		-- when a missing field is requested, fetch it from my config
 		-- set, and then cache the value for future lookups
 		setmetatable(ctx, context.__mt)
 
 		return ctx
+	end
+
+	function context.new(cfgset, environ)
+		return context.new_basedir(cfgset, environ, os.getcwd())
 	end
 
 

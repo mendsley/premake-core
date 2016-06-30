@@ -485,7 +485,7 @@
 			prj = prj,
 		}
 
-		local ctx = context.new(prj or wks, environ)
+		local ctx = context.new_basedir(prj or wks, environ, "")
 
 		ctx.project = prj
 		ctx.workspace = wks

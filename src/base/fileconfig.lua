@@ -44,7 +44,7 @@
 
 	function fileconfig.new(fname, prj)
 		local environ = { }
-		local fcfg = context.new(prj, environ)
+		local fcfg = context.new_basedir(prj, environ, prj.location)
 		context.copyFilters(fcfg, prj)
 		context.addFilter(fcfg, "files", fname:lower())
 
@@ -58,8 +58,6 @@
 		fcfg.project = prj
 		fcfg.configs = {}
 		fcfg.abspath = fname
-
-		context.basedir(fcfg, prj.location)
 
 		-- Most of the other path properties are computed on demand
 		-- from the file's absolute path.
@@ -97,7 +95,12 @@
 		-- specific to the file.
 
 		local environ = {}
-		local fsub = context.new(prj, environ)
+
+		-- Set the context's base directory to the project's file system
+		-- location. Any path tokens which are expanded in non-path fields
+		-- (such as the custom build commands) will be made relative to
+		-- this path, ensuring a portable generated project.
+		local fsub = context.new_basedir(prj, environ, prj.location)
 		context.copyFilters(fsub, cfg)
 		context.mergeFilters(fsub, fcfg)
 
@@ -122,13 +125,6 @@
 		fsub.vpath = fcfg.vpath
 		fsub.config = cfg
 		fsub.project = prj
-
-		-- Set the context's base directory to the project's file system
-		-- location. Any path tokens which are expanded in non-path fields
-		-- (such as the custom build commands) will be made relative to
-		-- this path, ensuring a portable generated project.
-
-		context.basedir(fsub, prj.location)
 
 		setmetatable(fsub, fileconfig.fsub_mt)
 
