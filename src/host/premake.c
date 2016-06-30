@@ -118,7 +118,8 @@ int premake_init(lua_State* L)
 	const char* value;
 
 	luaL_register(L, "criteria", criteria_functions);
-	luaL_register(L, "debug",    debug_functions);
+	//luaL_register(L, "debug",    debug_functions);
+	luaopen_debug(L);
 	luaL_register(L, "path",     path_functions);
 	luaL_register(L, "os",       os_functions);
 	luaL_register(L, "string",   string_functions);

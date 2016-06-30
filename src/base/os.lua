@@ -251,7 +251,7 @@
 --    A table containing the matched file or directory names.
 ---
 
-	function os.match(mask)
+	function os.match(mask, predicate)
 		mask = path.normalize(mask)
 		local starpos = mask:find("%*")
 		local before = path.getdirectory(starpos and mask:sub(1, starpos - 1) or mask)
@@ -267,14 +267,14 @@
 
 		if recurse then
 			local submask = mask:sub(1, starpos) .. mask:sub(starpos + 2)
-			results = os.match(submask)
+			results = os.match(submask, predicate)
 
 			local pattern = mask:sub(1, starpos)
 			local m = os.matchstart(pattern)
 			while os.matchnext(m) do
 				if not os.matchisfile(m) then
 					local matchpath = path.join(before, os.matchname(m), mask:sub(starpos))
-					results = table.join(results, os.match(matchpath))
+					results = table.join(results, os.match(matchpath, predicate))
 				end
 			end
 			os.matchdone(m)
@@ -285,10 +285,10 @@
 				if not (slashpos and os.matchisfile(m)) then
 					local matchpath = path.join(before, matchpath, os.matchname(m))
 					if after then
-						results = table.join(results, os.match(path.join(matchpath, after)))
-					else
+						results = table.join(results, os.match(path.join(matchpath, after), predicate))
+					elseif not predicate or predicate(m) then
 						table.insert(results, matchpath)
-						end
+					end
 					end
 				end
 				os.matchdone(m)
@@ -309,12 +309,13 @@
 ---
 
 	function os.matchdirs(mask)
-		local results = os.match(mask)
-		for i = #results, 1, -1 do
-			if not os.isdir(results[i]) then
-				table.remove(results, i)
-			end
-		end
+		local results = os.match(mask, function(m) return os.isdir(os.matchname(m)) end)
+		--for i = #results, 1, -1 do
+		--	if not os.isdir(results[i]) then
+		--		assert(0)
+		--		table.remove(results, i)
+		--	end
+		--end
 		return results
 	end
 
@@ -330,12 +331,13 @@
 ---
 
 	function os.matchfiles(mask)
-		local results = os.match(mask)
-		for i = #results, 1, -1 do
-			if not os.isfile(results[i]) then
-				table.remove(results, i)
-			end
-		end
+		local results = os.match(mask, function(m) return os.matchisfile(m) end)
+		--for i = #results, 1, -1 do
+		--	if not os.isfile(results[i]) then
+		--		assert(0)
+		--		table.remove(results, i)
+		--	end
+		--end
 		return results
 	end
 
