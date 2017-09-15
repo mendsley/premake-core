@@ -93,6 +93,7 @@
 	solution "Premake5"
 		configurations { "Release", "Debug" }
 		location ( _OPTIONS["to"] )
+		platforms "x64"
 
 		flags { "No64BitChecks", "ExtraWarnings", "StaticRuntime", "MultiProcessorCompile" }
 

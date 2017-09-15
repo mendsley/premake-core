@@ -258,6 +258,11 @@ LUA_API int lua_getinfo (lua_State *L, const char *what, lua_Debug *ar) {
   return status;
 }
 
+LUA_API void* lua_getcfunc(lua_State *L)
+{
+	return L->ci->func->value.gc->cl.c.f;
+}
+
 
 /*
 ** {======================================================
